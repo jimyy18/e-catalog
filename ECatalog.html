@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fffaf5">
+<title>Veronica Modiste — E-Katalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffaf5;--paper:#fff;--ink:#292522;--muted:#766f68;--line:#eadfd6;
+  --rose:#e96f83;--peach:#ffb08f;--mint:#65c8b5;--lav:#9d8bd6;--gold:#e9b84c;
+  --navy:#31445b;--shadow:0 14px 40px rgba(70,48,35,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;color-scheme:light}
+body{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif}
+button,select,input{font:inherit}
+a{color:inherit}
+.hero{position:relative;overflow:hidden;padding:calc(34px + env(safe-area-inset-top,0px)) 20px 34px;background:repeating-linear-gradient(90deg,rgba(194,69,92,.5) 0 1px,transparent 1px 10px) left bottom/100% 6px no-repeat,repeating-linear-gradient(90deg,rgba(194,69,92,.5) 0 1px,transparent 1px 50px) left bottom/100% 14px no-repeat,linear-gradient(135deg,#fff7ef 0%,#fff 48%,#f3fbf8 100%);border-bottom:1px solid var(--line)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);opacity:.55}
+.hero:before{width:240px;height:240px;background:#ffd8c6;right:-70px;top:-100px}
+.hero:after{width:180px;height:180px;background:#cfeee7;left:-80px;bottom:-90px}
+.wrap{max-width:1180px;margin:auto;padding:0 20px;position:relative;z-index:1}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:13px;color:var(--muted)}
+.brand{font-family:"Playfair Display",serif;font-size:clamp(34px,6vw,62px);line-height:1;margin:20px 0 8px;color:var(--navy)}
+.tagline{max-width:690px;font-size:15px;line-height:1.65;color:#665d56;margin:0}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12.5px;font-weight:700}
+.badge:nth-child(1){color:#c95268}.badge:nth-child(2){color:#238d7b}.badge:nth-child(3){color:#9a761d}.badge:nth-child(4){color:#6f5bb2}
+
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(255,250,245,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) 0 10px}
+.filters{display:grid;grid-template-columns:1.15fr 1fr 1fr 1fr 1.5fr;gap:9px}
+.field{position:relative}
+.field label{display:block;font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#6f645b;margin:0 0 5px 2px}
+select,.search{width:100%;height:42px;border:1px solid #dfd2c8;border-radius:12px;background:#fff;color:var(--ink);padding:0 12px;outline:none}
+select:focus,.search:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(233,111,131,.10)}
+.search::placeholder{color:#857b73}
+.count{font-size:13px;color:var(--muted);margin-top:9px}
+
+.section{padding:30px 0 0}
+.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:13px}
+.section-title h2{font-family:"Playfair Display",serif;font-size:24px;margin:0;color:var(--navy)}
+.section-title p{margin:0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 4px 15px rgba(70,48,35,.04);cursor:pointer;transition:.18s transform,.18s box-shadow,.18s border-color}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#d9c4b5}
+.card-media{height:245px;background:#eee;position:relative;overflow:hidden}
+.card-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.card:hover img{transform:scale(1.04)}
+.ribbon{position:absolute;left:10px;top:10px;z-index:2;background:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800;box-shadow:0 5px 15px rgba(0,0,0,.10)}
+.code{position:absolute;right:10px;top:10px;z-index:2;background:rgba(41,37,34,.82);color:#fff;border-radius:999px;padding:5px 9px;font-size:11px}
+.card-body{padding:14px}
+.card h3{font-family:"Playfair Display",serif;font-size:17px;margin:0 0 5px;color:var(--navy)}
+.card p{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0 0 10px;min-height:40px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:12px;color:#5a514a;background:#fffaf7}
+.more{font-size:13px;font-weight:800;color:#c2455c;margin-top:10px}
+
+.empty{display:none;text-align:center;padding:55px 20px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:18px}
+
+.info{margin:48px 0 35px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 5px 20px rgba(70,48,35,.04)}
+.info h2{font-family:"Playfair Display",serif;color:var(--navy);margin:0 0 8px}
+.info p{color:var(--muted);font-size:13.5px;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chips span{font-size:12px;padding:6px 10px;border-radius:999px;background:#f7f0eb;border:1px solid #eadfd6}
+
+footer{background:var(--navy);color:#fff;padding:38px 20px calc(38px + env(safe-area-inset-bottom,0px))}
+.footer-inner{max-width:1180px;margin:auto;display:grid;grid-template-columns:1.5fr 1fr;gap:30px}
+footer h2{font-family:"Playfair Display",serif;margin:0 0 7px;font-size:25px}
+footer p{font-size:14px;line-height:1.6;opacity:.9}
+.btns{display:flex;flex-wrap:wrap;gap:9px;align-items:center;justify-content:flex-end}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:13px 19px;border-radius:999px;font-size:14px;font-weight:800}
+.wa{background:#67d6b7;color:#16352e}.loc{background:#ffd07a;color:#4d3612}
+
+.overlay{position:fixed;inset:0;background:rgba(32,25,21,.55);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}
+.overlay.open{display:flex}
+.modal{width:min(980px,100%);max-height:92vh;overflow:auto;background:#fffaf5;border-radius:24px;box-shadow:0 25px 80px rgba(0,0,0,.25)}
+.modal-grid{display:grid;grid-template-columns:46% 54%}
+.modal-photo{min-height:560px;background:#eee}
+.modal-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.modal-content{padding:26px}
+.modal-top{display:flex;justify-content:space-between;gap:15px}
+.modal h2{font-family:"Playfair Display",serif;color:var(--navy);font-size:30px;margin:0 0 5px}
+.close{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer}
+.crumb{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#c2455c}
+.modal-desc{font-size:14.5px;line-height:1.65;color:var(--muted)}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.detail{background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px}
+.detail small{display:block;text-transform:uppercase;font-size:11px;font-weight:800;color:#6f645b;margin-bottom:4px}
+.detail strong{font-size:14px}
+.modal-list{padding-left:18px;font-size:13.5px;color:#5a514a;line-height:1.8}
+.cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.cta a,.cta button{border:0;border-radius:999px;padding:12px 17px;font-size:13.5px;font-weight:800;text-decoration:none;cursor:pointer}
+.primary{background:#c2455c;color:#fff}.secondary{background:#fff;border:1px solid var(--line)!important;color:var(--navy)}
+
+@media(max-width:980px){.grid{grid-template-columns:repeat(3,1fr)}.filters{grid-template-columns:1fr 1fr 1fr}.field.search-field{grid-column:1/-1}}
+@media(max-width:680px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}.card-media{height:170px}.card-body{padding:11px}.card h3{font-size:15px}.card p{-webkit-line-clamp:2;min-height:0}.more,.tag:nth-child(3){display:none}.filter-toggle{display:inline-flex}.filters{grid-template-columns:1fr 1fr}.filters .field:not(.search-field){display:none}.filters.open .field:not(.search-field){display:block}.field.search-field{grid-column:1/-1;order:-1}.footer-inner{grid-template-columns:1fr}.btns{justify-content:flex-start}.modal-grid{grid-template-columns:1fr}.modal-photo{min-height:220px;height:220px}.overlay{align-items:flex-end;padding:0}.modal{border-radius:22px 22px 0 0;max-height:92vh}}
+@media(max-width:430px){.brand{font-size:40px}}
+.ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;color:#fff;background:var(--c)}
+.ph:before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.14) 0 3px,transparent 3px 8px)}
+.ph b{font-size:54px;line-height:1;position:relative}
+.ph span{font-size:11.5px;font-weight:800;letter-spacing:.08em;position:relative}
+.ruler{display:none}
+.countrow{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rowbtns{display:flex;gap:8px}
+.filter-toggle,.resetbtn{border:1px solid #dfd2c8;background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer}
+.filter-toggle{display:none}.resetbtn[hidden]{display:none}
+.card:focus-visible{outline:3px solid #c2455c;outline-offset:2px}
+.empty p{margin:0 0 6px;font-size:15px}
+.pbtn{display:inline-block;border:0;border-radius:999px;padding:12px 18px;font-size:13.5px;font-weight:800;text-decoration:none;cursor:pointer;margin:8px 4px 0;background:#c2455c;color:#fff}
+.pbtn.alt{background:#67d6b7;color:#16352e}
+.modal-bar{position:sticky;top:0;height:0;z-index:5;display:flex;justify-content:flex-end;padding-right:12px}
+.modal-bar .close{margin-top:12px;width:40px;height:40px;font-size:15px;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.steps{list-style:none;padding:0;margin:14px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;counter-reset:s}
+.steps li{background:#fffaf7;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13.5px;line-height:1.5;color:var(--muted);counter-increment:s}
+.steps li:before{content:counter(s);display:flex;width:28px;height:28px;border-radius:50%;background:#c2455c;color:#fff;font-weight:700;align-items:center;justify-content:center;margin-bottom:8px}
+.steps b{display:block;color:var(--navy);margin-bottom:3px;font-size:14.5px}
+button,a,.card,.cchip{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+main{scroll-margin-top:150px}
+.chips-row,.panel-actions,.mcount,.mbar{display:none}
+.filter-toggle i{font-style:normal}
+.cchip{flex:0 0 auto;border:1px solid #dfd2c8;background:#fff;border-radius:999px;padding:10px 15px;font-size:14px;font-weight:700;color:#5a514a;cursor:pointer}
+.cchip.on{background:#c2455c;border-color:#c2455c;color:#fff}
+#fbadge:not(:empty){background:#c2455c;color:#fff;border-radius:999px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-left:4px}
+@media(min-width:681px) and (max-width:980px){.filters{grid-template-columns:repeat(4,1fr)}.field.search-field{grid-column:1/-1}}
+@media(hover:none){.card:hover{transform:none;box-shadow:0 4px 15px rgba(70,48,35,.04)}.card:hover img{transform:none}}
+@media(max-width:680px){
+html{scroll-padding-top:150px}
+footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,250,245,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.mbar a{flex:1;text-align:center;text-decoration:none;font-weight:800;font-size:15px;padding:14px 8px;border-radius:999px}
+.mbar .wa{background:#67d6b7;color:#16352e}.mbar .loc{background:#ffd07a;color:#4d3612}
+.countrow{display:none}
+.mcount{display:block;font-size:13px;color:var(--muted);padding-top:14px}
+.hero{padding:calc(26px + env(safe-area-inset-top,0px)) 16px 28px}.topline span:last-child{display:none}
+.field.search-field{order:-2;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.field.search-field label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.search{flex:1;min-width:0;height:46px;font-size:16px}
+.filter-toggle{display:inline-flex;align-items:center;height:46px;padding:0 14px;font-size:14px}
+.chips-row{display:flex;order:-1;grid-column:1/-1;gap:8px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}
+.chips-row::-webkit-scrollbar{display:none}
+.filters.open .panel-actions{display:flex;grid-column:1/-1;gap:8px}
+.panel-actions .resetbtn,.panel-actions .pbtn{flex:1;margin:0;text-align:center;height:44px;display:inline-flex;align-items:center;justify-content:center}
+select{height:46px;font-size:16px}
+.more{display:block;font-size:12.5px;margin-top:6px}.tag:nth-child(3){display:inline-block}
+.card-media{height:150px}.ph b{font-size:42px}
+.section{padding-top:22px}.section-title h2{font-size:21px}
+.modal{max-height:92vh;max-height:92dvh}
+.modal-content{padding:20px 18px}.modal h2{font-size:24px}
+.detail-grid{grid-template-columns:1fr 1fr}
+.cta{position:sticky;bottom:0;background:#fffaf5;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));margin-top:12px}
+.cta a,.cta button{flex:1;text-align:center;padding:14px 12px;font-size:14.5px}
+.info{padding:18px 16px}
+}
+.fpanel{display:contents}.fp-head,.fback{display:none}
+@media(max-width:680px){
+.toolbar{backdrop-filter:none;-webkit-backdrop-filter:none;background:#fffaf5}
+.filters{grid-template-columns:1fr}
+.fpanel{display:none}
+.filters.open .fpanel{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffaf5;border-radius:22px 22px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:85vh;max-height:85dvh;overflow-y:auto;box-shadow:0 -12px 40px rgba(0,0,0,.25)}
+.fp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-family:"Playfair Display",serif;font-size:21px;font-weight:700;color:var(--navy)}
+.filters .fpanel .field:not(.search-field){display:block;margin-bottom:12px}
+.filters.open .fback{display:block;position:fixed;inset:0;background:rgba(32,25,21,.5);z-index:55}
+body.fopen .mbar{display:none}
+.panel-actions{margin-top:4px}
+}
+</style>
+</head>
+<body>
+<noscript><style>.toolbar{display:none!important}.nojs{background:#fff3cd;padding:12px 16px;font-size:14px;line-height:1.5}button,a,.card,.cchip{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+main{scroll-margin-top:150px}
+.chips-row,.panel-actions,.mcount,.mbar{display:none}
+.filter-toggle i{font-style:normal}
+.cchip{flex:0 0 auto;border:1px solid #dfd2c8;background:#fff;border-radius:999px;padding:10px 15px;font-size:14px;font-weight:700;color:#5a514a;cursor:pointer}
+.cchip.on{background:#c2455c;border-color:#c2455c;color:#fff}
+#fbadge:not(:empty){background:#c2455c;color:#fff;border-radius:999px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-left:4px}
+@media(min-width:681px) and (max-width:980px){.filters{grid-template-columns:repeat(4,1fr)}.field.search-field{grid-column:1/-1}}
+@media(hover:none){.card:hover{transform:none;box-shadow:0 4px 15px rgba(70,48,35,.04)}.card:hover img{transform:none}}
+@media(max-width:680px){
+html{scroll-padding-top:150px}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,250,245,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.mbar a{flex:1;text-align:center;text-decoration:none;font-weight:800;font-size:15px;padding:14px 8px;border-radius:999px}
+.mbar .wa{background:#67d6b7;color:#16352e}.mbar .loc{background:#ffd07a;color:#4d3612}
+.countrow{display:none}
+.mcount{display:block;font-size:13px;color:var(--muted);padding-top:14px}
+.hero{padding:26px 16px 22px}.topline span:last-child{display:none}
+.field.search-field{order:-2;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.field.search-field label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.search{flex:1;min-width:0;height:46px;font-size:16px}
+.filter-toggle{display:inline-flex;align-items:center;height:46px;padding:0 14px;font-size:14px}
+.chips-row{display:flex;order:-1;grid-column:1/-1;gap:8px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}
+.chips-row::-webkit-scrollbar{display:none}
+.filters.open .panel-actions{display:flex;grid-column:1/-1;gap:8px}
+.panel-actions .resetbtn,.panel-actions .pbtn{flex:1;margin:0;text-align:center;height:44px;display:inline-flex;align-items:center;justify-content:center}
+select{height:46px;font-size:16px}
+.more{display:block;font-size:12.5px;margin-top:6px}.tag:nth-child(3){display:inline-block}
+.card-media{height:150px}.ph b{font-size:42px}
+.section{padding-top:22px}.section-title h2{font-size:21px}
+.modal{max-height:92vh;max-height:92dvh}
+.modal-content{padding:20px 18px}.modal h2{font-size:24px}
+.detail-grid{grid-template-columns:1fr 1fr}
+.cta{position:sticky;bottom:0;background:#fffaf5;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));margin-top:12px}
+.cta a,.cta button{flex:1;text-align:center;padding:14px 12px;font-size:14.5px}
+.info{padding:18px 16px}
+}
+</style><div class="nojs">Filter dan detail produk butuh JavaScript. Jika halaman ini dibuka lewat pratinjau file (WhatsApp / File Manager / Drive), buka lewat Chrome atau Safari. Daftar produk tetap tampil di bawah.</div></noscript>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topline"><span>Konveksi • Modiste • Jahit Custom</span><span>Semua model dapat disesuaikan</span></div>
+    <div class="brand">Veronica Modiste</div>
+    <p class="tagline">E-katalog pakaian, seragam, fashion custom, dan produk jahit. Bawa desain, foto referensi, atau cukup ceritakan kebutuhan Anda — model, ukuran, bahan, warna, dan detail dapat didiskusikan.</p>
+    <div class="badges">
+      <span class="badge">✦ Satuan & Partai</span><span class="badge">✦ Custom Model</span><span class="badge">✦ Custom Ukuran</span><span class="badge">✦ Bordir / Sablon</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="filters" id="filters">
+      <div class="field search-field"><label for="search">Cari produk</label><input class="search" id="search" oninput="render()" placeholder="Cari: gamis, kebaya, polo, wearpack..."><button class="filter-toggle" id="ftoggle" aria-expanded="false" onclick="toggleFilters()">⚙ Filter <i id="fbadge"></i></button></div>
+      <div class="chips-row" id="chips"></div>
+      <div class="fpanel" id="fpanel"><div class="fp-head"><span>Filter produk</span><button class="close" type="button" aria-label="Tutup filter" onclick="toggleFilters()">✕</button></div>
+      <div class="field"><label for="cat">Kategori utama</label><select id="cat" onchange="refreshSub();render()"><option value="all">Semua kategori</option></select></div>
+      <div class="field"><label for="sub">Subkategori</label><select id="sub" onchange="render()"><option value="all">Semua</option></select></div>
+      <div class="field"><label for="gender">Untuk</label><select id="gender" onchange="render()"><option value="all">Semua</option><option>Wanita</option><option>Pria</option><option>Anak</option></select></div>
+      <div class="field"><label for="use">Kebutuhan</label><select id="use" onchange="render()"><option value="all">Semua</option><option>Harian</option><option>Formal</option><option>Seragam</option><option>Olahraga</option><option>Acara</option><option>Rumah</option><option>Outdoor</option></select></div>
+      <div class="panel-actions"><button class="resetbtn" onclick="resetFilters()">Reset semua</button><button class="pbtn go" onclick="toggleFilters()">Lihat hasil</button></div></div><div class="fback" onclick="toggleFilters()"></div>
+    </div>
+    <div class="count countrow"><span id="count"></span><span class="rowbtns"><button class="resetbtn" id="reset" onclick="resetFilters()" hidden>Reset</button></span></div>
+  </div>
+</div>
+
+<div class="wrap"><div class="mcount" id="mcount"></div></div>
+<main class="wrap" id="catalog"><section class="section"><div class="section-title"><div><h2>Seragam & Corporate</h2><p>11 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('SR-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-01')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Kantor</span><span class="code">SR-01</span></div>
+    <div class="card-body"><h3>Seragam Kemeja Kantor</h3><p>Seragam kantor dan corporate dengan identitas perusahaan.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">XS–5XL</span><span class="tag">Drill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-02')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Kantor</span><span class="code">SR-02</span></div>
+    <div class="card-body"><h3>Polo Corporate</h3><p>Polo untuk perusahaan, event, outlet, dan komunitas.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">XS–5XL</span><span class="tag">Lacoste CVC</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-09')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-09')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Kantor</span><span class="code">SR-09</span></div>
+    <div class="card-body"><h3>Batik Seragam Instansi</h3><p>Kemeja dan blouse batik untuk instansi, kantor, dan komunitas.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">S–5XL</span><span class="tag">Katun Batik</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-03')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Sekolah</span><span class="code">SR-03</span></div>
+    <div class="card-body"><h3>Seragam SD / SMP / SMA</h3><p>Seragam putih-merah, putih-biru, dan putih-abu lengkap dengan atribut dan bordir nama.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">Anak–Dewasa</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-06')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-06')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Sekolah</span><span class="code">SR-06</span></div>
+    <div class="card-body"><h3>Seragam TK & PAUD</h3><p>Seragam TK, PAUD, dan playgroup dengan bahan lembut dan model ceria.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">Usia 3–7</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-07')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-07')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Sekolah</span><span class="code">SR-07</span></div>
+    <div class="card-body"><h3>Pramuka & Paskibra</h3><p>Seragam pramuka, paskibra, dan organisasi sekolah lengkap dengan atribut.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">S–5XL</span><span class="tag">Drill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-08')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-08')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Sekolah</span><span class="code">SR-08</span></div>
+    <div class="card-body"><h3>Olahraga & Batik Sekolah</h3><p>Seragam olahraga dan batik identitas sekolah atau instansi.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">Anak–Dewasa</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-04')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Lapangan</span><span class="code">SR-04</span></div>
+    <div class="card-body"><h3>Wearpack / Coverall</h3><p>Pakaian kerja lapangan dan industri.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">S–5XL</span><span class="tag">Drill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-10')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-10')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Lapangan</span><span class="code">SR-10</span></div>
+    <div class="card-body"><h3>Security / Teknisi / PDL</h3><p>Seragam security, satpam, teknisi, dan PDL dengan atribut lengkap.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">S–5XL</span><span class="tag">Drill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-05')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Hospitality</span><span class="code">SR-05</span></div>
+    <div class="card-body"><h3>Seragam Resto / Hotel</h3><p>Seragam untuk restoran, kafe, hotel, bakery, dan hospitality.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">XS–5XL</span><span class="tag">Drill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SR-11')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SR-11')}">
+    <div class="card-media"><div class="ph" style="--c:#3f5f8a"><b>👔</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Organisasi</span><span class="code">SR-11</span></div>
+    <div class="card-body"><h3>Jaket Almamater & Organisasi</h3><p>Jaket almamater, seragam kepanitiaan, organisasi, dan relawan.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">S–5XL</span><span class="tag">Fleece</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Fashion</h2><p>15 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('AT-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-01')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan</span><span class="code">AT-01</span></div>
+    <div class="card-body"><h3>Kaos Basic & Oversize</h3><p>Kaos basic, regular, oversize, raglan, V-neck, dan long sleeve sesuai desain.</p><div class="tags"><span class="tag">Harian</span><span class="tag">XS–5XL</span><span class="tag">Cotton Combed</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AT-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-02')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan</span><span class="code">AT-02</span></div>
+    <div class="card-body"><h3>Polo Shirt Custom</h3><p>Polo shirt untuk kantor, komunitas, usaha, event, maupun penggunaan harian.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">S–5XL</span><span class="tag">Lacoste CVC</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AT-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-03')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan</span><span class="code">AT-03</span></div>
+    <div class="card-body"><h3>Kemeja Formal</h3><p>Kemeja formal dan semi-formal untuk kantor, acara, maupun seragam.</p><div class="tags"><span class="tag">Formal</span><span class="tag">S–5XL</span><span class="tag">Oxford</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AT-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-04')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan</span><span class="code">AT-04</span></div>
+    <div class="card-body"><h3>Blouse & Tunik</h3><p>Blouse, tunik, peplum, dan atasan wanita dengan pola sesuai request.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Rayon</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AT-07')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-07')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan</span><span class="code">AT-07</span></div>
+    <div class="card-body"><h3>Cardigan, Tank Top & Singlet</h3><p>Cardigan, tank top, singlet, dan atasan layering lainnya.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Rajut</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AT-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-05')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Outer & Jaket</span><span class="code">AT-05</span></div>
+    <div class="card-body"><h3>Hoodie & Crewneck</h3><p>Hoodie, zip hoodie, crewneck, dan sweater custom.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Fleece</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AT-06')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AT-06')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Outer & Jaket</span><span class="code">AT-06</span></div>
+    <div class="card-body"><h3>Jaket Bomber / Varsity</h3><p>Jaket komunitas, kampus, perusahaan, dan fashion.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Taslan</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('BW-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('BW-01')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Celana</span><span class="code">BW-01</span></div>
+    <div class="card-body"><h3>Celana Bahan / Chino</h3><p>Celana formal dan casual dengan ukuran standar maupun custom.</p><div class="tags"><span class="tag">Formal</span><span class="tag">28–44 / custom</span><span class="tag">Twill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('BW-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('BW-02')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Celana</span><span class="code">BW-02</span></div>
+    <div class="card-body"><h3>Cargo & Tactical</h3><p>Celana dengan saku fungsional untuk lapangan, komunitas, dan aktivitas outdoor.</p><div class="tags"><span class="tag">Outdoor</span><span class="tag">28–44 / custom</span><span class="tag">Ripstop</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('BW-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('BW-05')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Celana</span><span class="code">BW-05</span></div>
+    <div class="card-body"><h3>Celana Jogger, Kulot & Pendek</h3><p>Celana jogger, sweatpants, celana pendek, kulot, palazzo, dan skort.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Fleece</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('BW-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('BW-03')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Rok</span><span class="code">BW-03</span></div>
+    <div class="card-body"><h3>Rok A-Line / Span</h3><p>Rok kerja, sekolah, casual, maupun seragam.</p><div class="tags"><span class="tag">Formal</span><span class="tag">S–5XL</span><span class="tag">Twill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('BW-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('BW-04')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Rok</span><span class="code">BW-04</span></div>
+    <div class="card-body"><h3>Rok Plisket / Maxi</h3><p>Rok flowy untuk casual maupun busana muslim.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Polyester</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('DR-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('DR-01')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Dress</span><span class="code">DR-01</span></div>
+    <div class="card-body"><h3>Maxi / Midi Dress</h3><p>Dress harian dari model sederhana hingga statement piece.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Rayon</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('DR-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('DR-02')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Dress</span><span class="code">DR-02</span></div>
+    <div class="card-body"><h3>Dress Pesta / Cocktail</h3><p>Dress untuk pesta, resepsi, dinner, wisuda, dan acara formal.</p><div class="tags"><span class="tag">Acara</span><span class="tag">S–5XL</span><span class="tag">Satin</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('DR-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('DR-03')}">
+    <div class="card-media"><div class="ph" style="--c:#c2455c"><b>👗</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Dress</span><span class="code">DR-03</span></div>
+    <div class="card-body"><h3>Dress Bridesmaid</h3><p>Dress bridesmaid satuan atau kelompok dengan konsep seragam.</p><div class="tags"><span class="tag">Acara</span><span class="tag">XS–5XL</span><span class="tag">Satin</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Busana Muslim</h2><p>6 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('MU-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('MU-01')}">
+    <div class="card-media"><div class="ph" style="--c:#6f5bb2"><b>🧕</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Gamis & Abaya</span><span class="code">MU-01</span></div>
+    <div class="card-body"><h3>Gamis Custom</h3><p>Gamis casual, formal, syar'i, maupun model pesta.</p><div class="tags"><span class="tag">Harian</span><span class="tag">S–5XL</span><span class="tag">Wolfis</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('MU-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('MU-02')}">
+    <div class="card-media"><div class="ph" style="--c:#6f5bb2"><b>🧕</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Gamis & Abaya</span><span class="code">MU-02</span></div>
+    <div class="card-body"><h3>Abaya / Kaftan</h3><p>Abaya dan kaftan untuk acara maupun koleksi fashion.</p><div class="tags"><span class="tag">Acara</span><span class="tag">S–5XL</span><span class="tag">Ceruti</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('MU-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('MU-03')}">
+    <div class="card-media"><div class="ph" style="--c:#6f5bb2"><b>🧕</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan Muslim</span><span class="code">MU-03</span></div>
+    <div class="card-body"><h3>Koko Custom</h3><p>Baju koko harian, acara, komunitas, maupun seragam.</p><div class="tags"><span class="tag">Formal</span><span class="tag">S–5XL</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('MU-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('MU-05')}">
+    <div class="card-media"><div class="ph" style="--c:#6f5bb2"><b>🧕</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Atasan Muslim</span><span class="code">MU-05</span></div>
+    <div class="card-body"><h3>Sarimbit & Baju Kurung</h3><p>Sarimbit keluarga, baju kurung, setelan muslim, dan busana Ramadan/Idulfitri.</p><div class="tags"><span class="tag">Acara</span><span class="tag">S–5XL</span><span class="tag">Songket</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('MU-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('MU-04')}">
+    <div class="card-media"><div class="ph" style="--c:#6f5bb2"><b>🧕</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Pelengkap</span><span class="code">MU-04</span></div>
+    <div class="card-body"><h3>Mukena & Hijab Custom</h3><p>Mukena, khimar, bergo, dan hijab sesuai kebutuhan.</p><div class="tags"><span class="tag">Harian</span><span class="tag">All Size</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('MU-06')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('MU-06')}">
+    <div class="card-media"><div class="ph" style="--c:#6f5bb2"><b>🧕</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Pelengkap</span><span class="code">MU-06</span></div>
+    <div class="card-body"><h3>Peci & Sorban</h3><p>Peci dan sorban untuk harian, pengajian, dan komunitas.</p><div class="tags"><span class="tag">Harian</span><span class="tag">All Size</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Sport & Outdoor</h2><p>8 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('SP-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-01')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Jersey</span><span class="code">SP-01</span></div>
+    <div class="card-body"><h3>Jersey Futsal / Bola</h3><p>Jersey tim dengan desain custom.</p><div class="tags"><span class="tag">Olahraga</span><span class="tag">XS–5XL</span><span class="tag">Dry Fit</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-02')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Jersey</span><span class="code">SP-02</span></div>
+    <div class="card-body"><h3>Jersey Basket / Voli / Badminton</h3><p>Jersey berbagai cabang olahraga.</p><div class="tags"><span class="tag">Olahraga</span><span class="tag">XS–5XL</span><span class="tag">Dry Fit</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-05')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Jersey</span><span class="code">SP-05</span></div>
+    <div class="card-body"><h3>Jersey Cycling & Running</h3><p>Jersey cycling dan running full print untuk tim maupun komunitas.</p><div class="tags"><span class="tag">Olahraga</span><span class="tag">XS–5XL</span><span class="tag">Dry Fit</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-03')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Training</span><span class="code">SP-03</span></div>
+    <div class="card-body"><h3>Training Set / Tracksuit</h3><p>Set latihan, jogging, dan kebutuhan tim.</p><div class="tags"><span class="tag">Olahraga</span><span class="tag">S–5XL</span><span class="tag">Parasut</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-06')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-06')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Training</span><span class="code">SP-06</span></div>
+    <div class="card-body"><h3>Legging, Sports Bra & Baju Gym</h3><p>Legging olahraga, sports bra, running shorts, dan baju gym.</p><div class="tags"><span class="tag">Olahraga</span><span class="tag">XS–5XL</span><span class="tag">Spandex</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-07')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-07')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Training</span><span class="code">SP-07</span></div>
+    <div class="card-body"><h3>Baju Renang</h3><p>Baju renang dan swimwear, termasuk model muslimah.</p><div class="tags"><span class="tag">Olahraga</span><span class="tag">Anak–Dewasa</span><span class="tag">Lycra</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-04')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Outdoor</span><span class="code">SP-04</span></div>
+    <div class="card-body"><h3>Jaket Touring / Outdoor</h3><p>Jaket untuk touring, hiking, komunitas, dan aktivitas luar ruang.</p><div class="tags"><span class="tag">Outdoor</span><span class="tag">S–5XL</span><span class="tag">Taslan</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('SP-08')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('SP-08')}">
+    <div class="card-media"><div class="ph" style="--c:#1f7f6d"><b>🏃</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Outdoor</span><span class="code">SP-08</span></div>
+    <div class="card-body"><h3>Raincoat & Rompi Tactical</h3><p>Jas hujan, windbreaker, rompi tactical, dan pakaian camping.</p><div class="tags"><span class="tag">Outdoor</span><span class="tag">S–5XL</span><span class="tag">Parasut</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Occasion & Special</h2><p>5 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('OC-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('OC-01')}">
+    <div class="card-media"><div class="ph" style="--c:#9a4a6b"><b>👰</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Kebaya</span><span class="code">OC-01</span></div>
+    <div class="card-body"><h3>Kebaya Modern</h3><p>Kebaya modern untuk wisuda, lamaran, resepsi, dan acara formal.</p><div class="tags"><span class="tag">Acara</span><span class="tag">S–5XL</span><span class="tag">Brokat</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('OC-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('OC-02')}">
+    <div class="card-media"><div class="ph" style="--c:#9a4a6b"><b>👰</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Kebaya</span><span class="code">OC-02</span></div>
+    <div class="card-body"><h3>Kebaya Wisuda / Bridesmaid</h3><p>Kebaya kelompok dengan model dan warna yang terkoordinasi.</p><div class="tags"><span class="tag">Acara</span><span class="tag">XS–5XL</span><span class="tag">Brokat</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('OC-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('OC-03')}">
+    <div class="card-media"><div class="ph" style="--c:#9a4a6b"><b>👰</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Formal</span><span class="code">OC-03</span></div>
+    <div class="card-body"><h3>Jas / Blazer</h3><p>Jas, blazer, vest, dan setelan formal.</p><div class="tags"><span class="tag">Formal</span><span class="tag">S–5XL</span><span class="tag">Wool Blend</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('OC-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('OC-04')}">
+    <div class="card-media"><div class="ph" style="--c:#9a4a6b"><b>👰</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Adat & Kostum</span><span class="code">OC-04</span></div>
+    <div class="card-body"><h3>Pakaian Adat Custom</h3><p>Pakaian adat berdasarkan daerah atau referensi acara.</p><div class="tags"><span class="tag">Acara</span><span class="tag">Semua</span><span class="tag">Sesuai desain</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('OC-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('OC-05')}">
+    <div class="card-media"><div class="ph" style="--c:#9a4a6b"><b>👰</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Kostum</span><span class="code">OC-05</span></div>
+    <div class="card-body"><h3>Kostum Tari / Panggung / Cosplay</h3><p>Kostum pentas, tari, cosplay, maskot, dan kebutuhan event.</p><div class="tags"><span class="tag">Acara</span><span class="tag">Custom</span><span class="tag">Sesuai desain</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Anak & Bayi</h2><p>4 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('CH-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('CH-01')}">
+    <div class="card-media"><div class="ph" style="--c:#c46a30"><b>🧒</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Bayi</span><span class="code">CH-01</span></div>
+    <div class="card-body"><h3>Baby Set / Romper</h3><p>Pakaian bayi dengan model sederhana dan nyaman.</p><div class="tags"><span class="tag">Harian</span><span class="tag">0–24 bulan</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('CH-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('CH-02')}">
+    <div class="card-media"><div class="ph" style="--c:#c46a30"><b>🧒</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Anak</span><span class="code">CH-02</span></div>
+    <div class="card-body"><h3>Dress Anak</h3><p>Dress anak untuk harian, pesta, dan acara keluarga.</p><div class="tags"><span class="tag">Acara</span><span class="tag">1–12 tahun</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('CH-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('CH-03')}">
+    <div class="card-media"><div class="ph" style="--c:#c46a30"><b>🧒</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Anak</span><span class="code">CH-03</span></div>
+    <div class="card-body"><h3>Koko / Gamis Anak</h3><p>Busana muslim anak untuk harian dan acara.</p><div class="tags"><span class="tag">Acara</span><span class="tag">1–12 tahun</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('CH-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('CH-04')}">
+    <div class="card-media"><div class="ph" style="--c:#c46a30"><b>🧒</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Anak</span><span class="code">CH-04</span></div>
+    <div class="card-body"><h3>Piyama & Kostum Anak</h3><p>Piyama anak, kostum karakter, dan seragam anak untuk acara.</p><div class="tags"><span class="tag">Harian</span><span class="tag">1–12 tahun</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Aksesori & Tas</h2><p>3 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('AC-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AC-01')}">
+    <div class="card-media"><div class="ph" style="--c:#7a6a2e"><b>👜</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Tas</span><span class="code">AC-01</span></div>
+    <div class="card-body"><h3>Tote Bag / Goodie Bag</h3><p>Tas custom untuk event, merchandise, retail, dan kebutuhan usaha.</p><div class="tags"><span class="tag">Harian</span><span class="tag">Custom</span><span class="tag">Canvas</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AC-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AC-02')}">
+    <div class="card-media"><div class="ph" style="--c:#7a6a2e"><b>👜</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Tas</span><span class="code">AC-02</span></div>
+    <div class="card-body"><h3>Pouch / Sling Bag</h3><p>Pouch, sling bag, waist bag, dan tas kain custom.</p><div class="tags"><span class="tag">Harian</span><span class="tag">Custom</span><span class="tag">Canvas</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('AC-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('AC-03')}">
+    <div class="card-media"><div class="ph" style="--c:#7a6a2e"><b>👜</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Aksesori</span><span class="code">AC-03</span></div>
+    <div class="card-body"><h3>Topi / Bucket Hat</h3><p>Topi custom untuk komunitas, perusahaan, dan fashion.</p><div class="tags"><span class="tag">Harian</span><span class="tag">All Size / custom</span><span class="tag">Drill</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Homewear & Tekstil</h2><p>6 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('HM-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('HM-01')}">
+    <div class="card-media"><div class="ph" style="--c:#3f7f8a"><b>🛏️</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Homewear</span><span class="code">HM-01</span></div>
+    <div class="card-body"><h3>Piyama Set</h3><p>Set piyama dan pakaian tidur yang nyaman.</p><div class="tags"><span class="tag">Rumah</span><span class="tag">S–5XL</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('HM-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('HM-02')}">
+    <div class="card-media"><div class="ph" style="--c:#3f7f8a"><b>🛏️</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Homewear</span><span class="code">HM-02</span></div>
+    <div class="card-body"><h3>Daster / Loungewear</h3><p>Pakaian santai rumah yang longgar dan nyaman.</p><div class="tags"><span class="tag">Rumah</span><span class="tag">All Size / Big Size</span><span class="tag">Rayon</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('HM-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('HM-03')}">
+    <div class="card-media"><div class="ph" style="--c:#3f7f8a"><b>🛏️</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Bed Linen</span><span class="code">HM-03</span></div>
+    <div class="card-body"><h3>Sprei / Bed Cover</h3><p>Sprei, bed cover, sarung bantal, sarung guling, dan selimut.</p><div class="tags"><span class="tag">Rumah</span><span class="tag">Single–King / custom</span><span class="tag">CVC</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('HM-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('HM-04')}">
+    <div class="card-media"><div class="ph" style="--c:#3f7f8a"><b>🛏️</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Dekorasi</span><span class="code">HM-04</span></div>
+    <div class="card-body"><h3>Tirai / Taplak / Sarung Sofa</h3><p>Produk tekstil rumah tangga berdasarkan ukuran furnitur.</p><div class="tags"><span class="tag">Rumah</span><span class="tag">Custom</span><span class="tag">Katun</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('HM-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('HM-05')}">
+    <div class="card-media"><div class="ph" style="--c:#3f7f8a"><b>🛏️</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Dapur</span><span class="code">HM-05</span></div>
+    <div class="card-body"><h3>Apron / Kitchen Textile</h3><p>Apron, lap dapur, sarung tangan oven kain, dan kebutuhan resto/kafe.</p><div class="tags"><span class="tag">Rumah</span><span class="tag">All Size / custom</span><span class="tag">Canvas</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('HM-06')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('HM-06')}">
+    <div class="card-media"><div class="ph" style="--c:#3f7f8a"><b>🛏️</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Dapur</span><span class="code">HM-06</span></div>
+    <div class="card-body"><h3>Handuk & Keset Custom</h3><p>Handuk custom, keset kain, lap dapur, dan kitchen towel.</p><div class="tags"><span class="tag">Rumah</span><span class="tag">Custom</span><span class="tag">Terry Cotton</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section><section class="section"><div class="section-title"><div><h2>Jasa Produksi</h2><p>6 pilihan</p></div></div><div class="grid"><article class="card" tabindex="0" onclick="openModal('JS-01')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('JS-01')}">
+    <div class="card-media"><div class="ph" style="--c:#4d5b6b"><b>🧵</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Jahit Custom</span><span class="code">JS-01</span></div>
+    <div class="card-body"><h3>Jahit dari Foto / Referensi</h3><p>Pelanggan cukup membawa foto atau contoh pakaian untuk dibahas menjadi produk baru.</p><div class="tags"><span class="tag">Harian</span><span class="tag">Custom</span><span class="tag">Sesuai desain</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('JS-02')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('JS-02')}">
+    <div class="card-media"><div class="ph" style="--c:#4d5b6b"><b>🧵</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Pola & Sample</span><span class="code">JS-02</span></div>
+    <div class="card-body"><h3>Pembuatan Pola & Sample</h3><p>Pembuatan pola, prototype, sample, dan penyesuaian sebelum produksi.</p><div class="tags"><span class="tag">Formal</span><span class="tag">Custom</span><span class="tag">Sesuai produk</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('JS-03')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('JS-03')}">
+    <div class="card-media"><div class="ph" style="--c:#4d5b6b"><b>🧵</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Permak</span><span class="code">JS-03</span></div>
+    <div class="card-body"><h3>Permak & Alteration</h3><p>Mengecilkan, membesarkan, memendekkan, memanjangkan, dan mengubah detail tertentu.</p><div class="tags"><span class="tag">Harian</span><span class="tag">Custom</span><span class="tag">Mengikuti pakaian</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('JS-04')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('JS-04')}">
+    <div class="card-media"><div class="ph" style="--c:#4d5b6b"><b>🧵</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Finishing</span><span class="code">JS-04</span></div>
+    <div class="card-body"><h3>Bordir / Sablon / Label</h3><p>Finishing dan branding untuk pakaian maupun produk tekstil.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">Custom</span><span class="tag">Mengikuti produk</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('JS-05')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('JS-05')}">
+    <div class="card-media"><div class="ph" style="--c:#4d5b6b"><b>🧵</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Konveksi</span><span class="code">JS-05</span></div>
+    <div class="card-body"><h3>Produksi Partai / Maklon</h3><p>Produksi satuan, partai kecil, grosir, hingga kebutuhan brand/instansi.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">Custom</span><span class="tag">Sesuai produk</span></div><div class="more">Lihat detail ↗</div></div>
+  </article><article class="card" tabindex="0" onclick="openModal('JS-06')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('JS-06')}">
+    <div class="card-media"><div class="ph" style="--c:#4d5b6b"><b>🧵</b><span>FOTO MENYUSUL</span></div><span class="ribbon">Konveksi</span><span class="code">JS-06</span></div>
+    <div class="card-body"><h3>Private Label & Packaging</h3><p>Private label, white label, label woven, hangtag, dan packaging custom.</p><div class="tags"><span class="tag">Seragam</span><span class="tag">Custom</span><span class="tag">Sesuai produk</span></div><div class="more">Lihat detail ↗</div></div>
+  </article></div></section></main>
+<div class="wrap"><div class="empty" id="empty"><p><b>Produk tidak ditemukan.</b></p><p>Tidak ketemu yang dicari? Sebagian besar model bisa dibuat custom.</p><button class="pbtn" onclick="resetFilters()">Reset filter</button><a class="pbtn alt" target="_blank" href="https://wa.me/6285190008567?text=Halo%20Veronica%20Modiste%2C%20saya%20mencari%20produk%20yang%20belum%20ada%20di%20katalog">💬 Tanya langsung</a></div></div>
+
+<section class="wrap">
+  <div class="info">
+    <h2>Material, ukuran & finishing</h2>
+    <p>Daftar berikut adalah pilihan umum. Untuk bahan atau detail yang belum tercantum, pelanggan dapat mengirim referensi dan kami sesuaikan dengan kebutuhan produk.</p>
+    <div class="chips">
+      <span>Cotton Combed</span><span>CVC / TC</span><span>Lacoste</span><span>Drill</span><span>American Drill</span><span>Japan Drill</span><span>Canvas</span><span>Denim</span><span>Taslan</span><span>Ripstop</span><span>Fleece</span><span>Baby Terry</span><span>Rayon</span><span>Viscose</span><span>Linen</span><span>Oxford</span><span>Toyobo</span><span>Wolfis</span><span>Ceruti</span><span>Brokat</span><span>Satin</span><span>Batik</span><span>Bahan dari pelanggan</span>
+      <span>XS–5XL</span><span>Big Size</span><span>All Size</span><span>Anak</span><span>Bayi</span><span>Custom Measurement</span>
+      <span>Bordir</span><span>DTF</span><span>Sablon</span><span>Sublimasi</span><span>Label</span><span>Patch</span><span>Hangtag</span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap"><div class="info"><h2>Cara pesan</h2><ol class="steps"><li><b>Konsultasi</b>Kirim foto/desain, jenis pakaian, jumlah, dan ukuran.</li><li><b>Pilih bahan &amp; model</b>Kami bantu arahkan bahan, warna, dan detail.</li><li><b>Sample / fitting</b>Untuk model tertentu atau pesanan partai.</li><li><b>Produksi</b>Potong, jahit, finishing, bordir/sablon.</li><li><b>Cek &amp; serah terima</b>Pengecekan akhir sebelum diambil atau dikirim.</li></ol><p>Minimal order, estimasi waktu, dan harga bergantung pada jenis produk, bahan, dan jumlah. Kirim referensi lewat WhatsApp untuk mendapat gambaran.</p></div></section>
+
+<footer>
+  <div class="footer-inner">
+    <div><h2>Pesan sesuai kebutuhan Anda</h2><p>Untuk pemesanan, kirimkan jenis pakaian, jumlah, ukuran, bahan/warna bila sudah ada, serta foto atau desain referensi. Tim Veronica Modiste dapat membantu mengarahkan detail produksinya.</p></div>
+    <div class="btns">
+      <a class="btn wa" href="https://wa.me/6285190008567?text=Halo%20Veronica%20Modiste%2C%20saya%20ingin%20konsultasi%20pesanan" target="_blank">💬 WhatsApp</a>
+      <a class="btn loc" href="https://maps.app.goo.gl/e8zrKQs7EmYHNjy26?g_st=ic" target="_blank">📍 Lokasi</a>
+    </div>
+  </div>
+</footer>
+
+<nav class="mbar" aria-label="Kontak cepat"><a class="wa" href="https://wa.me/6285190008567?text=Halo%20Veronica%20Modiste%2C%20saya%20ingin%20konsultasi%20pesanan" target="_blank" rel="noopener">💬 WhatsApp</a><a class="loc" href="https://maps.app.goo.gl/e8zrKQs7EmYHNjy26?g_st=ic" target="_blank" rel="noopener">📍 Lokasi</a></nav>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-bar"><button class="close" aria-label="Tutup" onclick="closeModal()">✕</button></div>
+    <div class="modal-grid">
+      <div class="modal-photo" id="modalPh"></div>
+      <div class="modal-content">
+        <div class="modal-top"><div><div class="crumb" id="modalCrumb"></div><h2 id="modalTitle"></h2></div></div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="detail-grid">
+          <div class="detail"><small>Untuk</small><strong id="mGender"></strong></div>
+          <div class="detail"><small>Kebutuhan</small><strong id="mUse"></strong></div>
+          <div class="detail"><small>Ukuran</small><strong id="mSize"></strong></div>
+          <div class="detail"><small>Bahan contoh</small><strong id="mMaterial"></strong></div>
+        </div>
+        <div class="detail"><small>Detail custom</small><strong id="mCustom"></strong></div>
+        <ul class="modal-list" id="mNotes"></ul>
+        <div class="cta"><a class="primary" id="waLink" target="_blank">💬 Tanya produk ini</a><button class="secondary" onclick="closeModal()">Kembali ke katalog</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const IMG = new Proxy({}, {get:()=>""});
+
+const products = [
+{id:"AT-01",cat:"Fashion",sub:"Atasan",name:"Kaos Basic & Oversize",gender:"Unisex",use:"Harian",img:IMG.fashion,size:"XS–5XL",material:"Cotton Combed / CVC",custom:"Potongan, warna, ukuran, sablon, bordir",desc:"Kaos basic, regular, oversize, raglan, V-neck, dan long sleeve sesuai desain.",notes:["Cocok untuk komunitas, event, merchandise, dan brand fashion.","Bisa satuan maupun produksi partai.","File desain dapat dikirim untuk dibahas."]},
+{id:"AT-02",cat:"Fashion",sub:"Atasan",name:"Polo Shirt Custom",gender:"Unisex",use:"Seragam",img:IMG.shirt,size:"S–5XL",material:"Lacoste CVC / Cotton",custom:"Kerah, manset, kombinasi warna, bordir logo",desc:"Polo shirt untuk kantor, komunitas, usaha, event, maupun penggunaan harian.",notes:["Pilihan lengan pendek/panjang.","Logo dapat dibordir atau diaplikasikan dengan teknik lain.","Bisa dibuat berdasarkan contoh pakaian."]},
+{id:"AT-03",cat:"Fashion",sub:"Atasan",name:"Kemeja Formal",gender:"Pria",use:"Formal",img:IMG.shirt,size:"S–5XL",material:"Oxford / Toyobo / Drill",custom:"Regular/slim fit, saku, kerah, manset",desc:"Kemeja formal dan semi-formal untuk kantor, acara, maupun seragam.",notes:["Lengan panjang atau pendek.","Pilihan kerah dan saku dapat disesuaikan.","Dapat dibuat seragam satu tim."]},
+{id:"AT-04",cat:"Fashion",sub:"Atasan",name:"Blouse & Tunik",gender:"Wanita",use:"Harian",img:IMG.fashion,size:"S–5XL",material:"Rayon / Linen / Katun",custom:"Panjang, kerah, lengan, bukaan, detail dekoratif",desc:"Blouse, tunik, peplum, dan atasan wanita dengan pola sesuai request.",notes:["Dapat mengikuti referensi foto.","Pilihan loose fit sampai fitted.","Cocok untuk koleksi pribadi maupun brand."]},
+{id:"AT-05",cat:"Fashion",sub:"Outer & Jaket",name:"Hoodie & Crewneck",gender:"Unisex",use:"Harian",img:IMG.jacket,size:"S–5XL",material:"Fleece / Baby Terry",custom:"Hood, zipper, bordir, sablon, kombinasi warna",desc:"Hoodie, zip hoodie, crewneck, dan sweater custom.",notes:["Bisa menggunakan logo atau artwork.","Cocok untuk komunitas dan merchandise.","Ketebalan bahan dapat dipilih."]},
+{id:"AT-06",cat:"Fashion",sub:"Outer & Jaket",name:"Jaket Bomber / Varsity",gender:"Unisex",use:"Harian",img:IMG.jacket,size:"S–5XL",material:"Taslan / Drill / Fleece",custom:"Patch, bordir, rib, kombinasi panel",desc:"Jaket komunitas, kampus, perusahaan, dan fashion.",notes:["Kombinasi warna dan panel custom.","Bisa ditambah patch atau emblem.","Dapat dibuat berdasarkan referensi."]},
+
+{id:"BW-01",cat:"Fashion",sub:"Celana",name:"Celana Bahan / Chino",gender:"Unisex",use:"Formal",img:IMG.clothes,size:"28–44 / custom",material:"Twill / Drill",custom:"Potongan, pinggang, saku, panjang",desc:"Celana formal dan casual dengan ukuran standar maupun custom.",notes:["Regular, slim, tapered dapat didiskusikan.","Bisa dibuat sebagai setelan dengan atasan.","Ukuran dapat berdasarkan measurement."]},
+{id:"BW-02",cat:"Fashion",sub:"Celana",name:"Cargo & Tactical",gender:"Unisex",use:"Outdoor",img:IMG.clothes,size:"28–44 / custom",material:"Ripstop / Drill",custom:"Jumlah saku, posisi saku, strap, warna",desc:"Celana dengan saku fungsional untuk lapangan, komunitas, dan aktivitas outdoor.",notes:["Layout saku dapat dirancang.","Bisa dibuat seragam lapangan.","Pilihan bahan menyesuaikan kebutuhan."]},
+{id:"BW-03",cat:"Fashion",sub:"Rok",name:"Rok A-Line / Span",gender:"Wanita",use:"Formal",img:IMG.fashion,size:"S–5XL",material:"Twill / Drill / Linen",custom:"Panjang, belahan, waistband, resleting",desc:"Rok kerja, sekolah, casual, maupun seragam.",notes:["Panjang dapat ditentukan pelanggan.","Dapat dipasangkan dengan blouse/kemeja.","Model dan detail dapat disesuaikan."]},
+{id:"BW-04",cat:"Fashion",sub:"Rok",name:"Rok Plisket / Maxi",gender:"Wanita",use:"Harian",img:IMG.dress,size:"S–5XL",material:"Polyester / Rayon",custom:"Panjang, pinggang, warna, layer",desc:"Rok flowy untuk casual maupun busana muslim.",notes:["Pilihan panjang midi atau maxi.","Bisa disesuaikan dengan atasan.","Warna mengikuti bahan yang tersedia."]},
+
+{id:"DR-01",cat:"Fashion",sub:"Dress",name:"Maxi / Midi Dress",gender:"Wanita",use:"Harian",img:IMG.dress,size:"S–5XL",material:"Rayon / Katun / Linen",custom:"Panjang, neckline, lengan, siluet",desc:"Dress harian dari model sederhana hingga statement piece.",notes:["Bisa mengikuti foto referensi.","Ukuran custom tersedia.","Pilihan bahan disesuaikan dengan model."]},
+{id:"DR-02",cat:"Fashion",sub:"Dress",name:"Dress Pesta / Cocktail",gender:"Wanita",use:"Acara",img:IMG.dress,size:"S–5XL",material:"Satin / Brokat / Velvet",custom:"Payet, drape, layer, cutting",desc:"Dress untuk pesta, resepsi, dinner, wisuda, dan acara formal.",notes:["Fitting dan detail dapat dibicarakan.","Bahan kombinasi memungkinkan.","Model dapat dibuat berdasarkan referensi."]},
+{id:"DR-03",cat:"Fashion",sub:"Dress",name:"Dress Bridesmaid",gender:"Wanita",use:"Acara",img:IMG.dress,size:"XS–5XL",material:"Satin / Chiffon / Brokat",custom:"Seragam warna dan model",desc:"Dress bridesmaid satuan atau kelompok dengan konsep seragam.",notes:["Bisa satu desain dengan beberapa ukuran.","Warna dapat dikoordinasikan.","Detail tiap ukuran dapat disesuaikan."]},
+
+{id:"MU-01",cat:"Busana Muslim",sub:"Gamis & Abaya",name:"Gamis Custom",gender:"Wanita",use:"Harian",img:IMG.dress,size:"S–5XL",material:"Wolfis / Rayon / Toyobo",custom:"Siluet, panjang, manset, kerah, kombinasi",desc:"Gamis casual, formal, syar'i, maupun model pesta.",notes:["Panjang dan lingkar badan custom.","Bisa dibuat berdasarkan foto referensi.","Pilihan bahan mengikuti karakter desain."]},
+{id:"MU-02",cat:"Busana Muslim",sub:"Gamis & Abaya",name:"Abaya / Kaftan",gender:"Wanita",use:"Acara",img:IMG.dress,size:"S–5XL",material:"Ceruti / Satin / Crepe",custom:"Payet, bordir, layer, kombinasi bahan",desc:"Abaya dan kaftan untuk acara maupun koleksi fashion.",notes:["Model loose sampai structured.","Bisa custom detail dekoratif.","Cocok untuk produksi koleksi."]},
+{id:"MU-03",cat:"Busana Muslim",sub:"Atasan Muslim",name:"Koko Custom",gender:"Pria",use:"Formal",img:IMG.shirt,size:"S–5XL",material:"Katun / Toyobo",custom:"Kerah, bordir, kombinasi warna",desc:"Baju koko harian, acara, komunitas, maupun seragam.",notes:["Bisa bordir nama/logo.","Lengan pendek atau panjang.","Dapat dibuat berpasangan dengan sarung atau bawahan."]},
+{id:"MU-04",cat:"Busana Muslim",sub:"Pelengkap",name:"Mukena & Hijab Custom",gender:"Wanita",use:"Harian",img:IMG.fabric,size:"All Size",material:"Katun / Rayon / Parasut",custom:"Motif, renda, bordir, pouch",desc:"Mukena, khimar, bergo, dan hijab sesuai kebutuhan.",notes:["Bisa custom motif dan bordir.","Pilihan bahan disesuaikan penggunaan.","Dapat dibuat sebagai paket."]},
+
+{id:"SR-01",cat:"Seragam & Corporate",sub:"Kantor",name:"Seragam Kemeja Kantor",gender:"Unisex",use:"Seragam",img:IMG.shirt,size:"XS–5XL",material:"Drill / Oxford / Toyobo",custom:"Logo, bordir, kombinasi warna, saku",desc:"Seragam kantor dan corporate dengan identitas perusahaan.",notes:["Cocok untuk produksi tim.","Bisa lengan pendek/panjang.","Logo dapat dibordir."]},
+{id:"SR-02",cat:"Seragam & Corporate",sub:"Kantor",name:"Polo Corporate",gender:"Unisex",use:"Seragam",img:IMG.shirt,size:"XS–5XL",material:"Lacoste CVC",custom:"Kerah, lis, bordir logo",desc:"Polo untuk perusahaan, event, outlet, dan komunitas.",notes:["Pilihan warna dan kombinasi.","Bisa untuk pesanan jumlah banyak.","Logo dan nama dapat disesuaikan."]},
+{id:"SR-03",cat:"Seragam & Corporate",sub:"Sekolah",name:"Seragam SD / SMP / SMA",gender:"Unisex",use:"Seragam",img:IMG.clothes,size:"Anak–Dewasa",material:"Katun / Toyobo / Drill",custom:"Atribut, badge, bordir nama",desc:"Seragam putih-merah, putih-biru, dan putih-abu lengkap dengan atribut dan bordir nama.",notes:["Ukuran anak sampai dewasa.","Atribut dapat dikerjakan sesuai kebutuhan.","Bisa dibuat satu angkatan."]},
+{id:"SR-04",cat:"Seragam & Corporate",sub:"Lapangan",name:"Wearpack / Coverall",gender:"Unisex",use:"Seragam",img:IMG.jacket,size:"S–5XL",material:"Drill / Ripstop",custom:"Saku, reflektif, bordir, patch",desc:"Pakaian kerja lapangan dan industri.",notes:["Detail saku fungsional.","Bisa ditambah reflective tape.","Identitas perusahaan dapat diaplikasikan."]},
+{id:"SR-05",cat:"Seragam & Corporate",sub:"Hospitality",name:"Seragam Resto / Hotel",gender:"Unisex",use:"Seragam",img:IMG.shirt,size:"XS–5XL",material:"Drill / Oxford / Katun",custom:"Apron, topi, logo, kombinasi warna",desc:"Seragam untuk restoran, kafe, hotel, bakery, dan hospitality.",notes:["Dapat dibuat satu paket.","Model menyesuaikan brand.","Bisa termasuk apron dan aksesori."]},
+
+{id:"SP-01",cat:"Sport & Outdoor",sub:"Jersey",name:"Jersey Futsal / Bola",gender:"Unisex",use:"Olahraga",img:IMG.sport,size:"XS–5XL",material:"Dry Fit / Paragon",custom:"Full print, nama, nomor, sponsor",desc:"Jersey tim dengan desain custom.",notes:["Nama dan nomor pemain.","Bisa satuan atau satu tim.","Desain dapat dikirim untuk dibahas."]},
+{id:"SP-02",cat:"Sport & Outdoor",sub:"Jersey",name:"Jersey Basket / Voli / Badminton",gender:"Unisex",use:"Olahraga",img:IMG.sport,size:"XS–5XL",material:"Dry Fit",custom:"Sublimasi, nama, nomor, panel",desc:"Jersey berbagai cabang olahraga.",notes:["Cutting menyesuaikan olahraga.","Bisa full sublimation.","Cocok untuk komunitas dan sekolah."]},
+{id:"SP-03",cat:"Sport & Outdoor",sub:"Training",name:"Training Set / Tracksuit",gender:"Unisex",use:"Olahraga",img:IMG.sport,size:"S–5XL",material:"Parasut / Fleece",custom:"Warna, piping, logo",desc:"Set latihan, jogging, dan kebutuhan tim.",notes:["Atasan dan bawahan dapat dipisah.","Logo dapat dibordir/print.","Pilihan bahan sesuai cuaca."]},
+{id:"SP-04",cat:"Sport & Outdoor",sub:"Outdoor",name:"Jaket Touring / Outdoor",gender:"Unisex",use:"Outdoor",img:IMG.jacket,size:"S–5XL",material:"Taslan / Parasut",custom:"Hood, reflective, patch, saku",desc:"Jaket untuk touring, hiking, komunitas, dan aktivitas luar ruang.",notes:["Bisa ditambah reflective detail.","Saku dan bukaan dapat dirancang.","Custom warna tersedia."]},
+
+{id:"OC-01",cat:"Occasion & Special",sub:"Kebaya",name:"Kebaya Modern",gender:"Wanita",use:"Acara",img:IMG.dress,size:"S–5XL",material:"Brokat / Tile / Satin",custom:"Cutting, payet, bordir, bustier",desc:"Kebaya modern untuk wisuda, lamaran, resepsi, dan acara formal.",notes:["Dapat mengikuti desain referensi.","Detail dekoratif menyesuaikan konsep.","Bisa dibuat untuk keluarga/bridesmaid."]},
+{id:"OC-02",cat:"Occasion & Special",sub:"Kebaya",name:"Kebaya Wisuda / Bridesmaid",gender:"Wanita",use:"Acara",img:IMG.dress,size:"XS–5XL",material:"Brokat / Satin",custom:"Model seragam, warna, detail",desc:"Kebaya kelompok dengan model dan warna yang terkoordinasi.",notes:["Ukuran tiap orang dapat berbeda.","Model dapat dibuat seragam.","Bisa dikombinasikan dengan rok/celana."]},
+{id:"OC-03",cat:"Occasion & Special",sub:"Formal",name:"Jas / Blazer",gender:"Unisex",use:"Formal",img:IMG.formal,size:"S–5XL",material:"Wool Blend / Twill",custom:"Single/double breasted, lining, lapel",desc:"Jas, blazer, vest, dan setelan formal.",notes:["Potongan dapat disesuaikan.","Bisa dibuat sebagai setelan.","Detail lining dan kancing dapat dipilih."]},
+{id:"OC-04",cat:"Occasion & Special",sub:"Adat & Kostum",name:"Pakaian Adat Custom",gender:"Unisex",use:"Acara",img:IMG.fashion,size:"Semua",material:"Sesuai desain",custom:"Motif, aksesori, siluet, detail adat",desc:"Pakaian adat berdasarkan daerah atau referensi acara.",notes:["Kirim foto/referensi saat konsultasi.","Detail disesuaikan dengan kebutuhan.","Bisa untuk pertunjukan atau acara keluarga."]},
+{id:"OC-05",cat:"Occasion & Special",sub:"Kostum",name:"Kostum Tari / Panggung / Cosplay",gender:"Unisex",use:"Acara",img:IMG.fashion,size:"Custom",material:"Sesuai desain",custom:"Detail khusus, aplikasi, aksesori",desc:"Kostum pentas, tari, cosplay, maskot, dan kebutuhan event.",notes:["Produksi berdasarkan konsep.","Detail dekoratif dibahas per desain.","Ukuran custom."]},
+
+{id:"CH-01",cat:"Anak & Bayi",sub:"Bayi",name:"Baby Set / Romper",gender:"Anak",use:"Harian",img:IMG.clothes,size:"0–24 bulan",material:"Katun",custom:"Model, kancing, motif",desc:"Pakaian bayi dengan model sederhana dan nyaman.",notes:["Ukuran berdasarkan usia atau measurement.","Pilihan bahan lembut.","Bisa custom motif."]},
+{id:"CH-02",cat:"Anak & Bayi",sub:"Anak",name:"Dress Anak",gender:"Anak",use:"Acara",img:IMG.dress,size:"1–12 tahun",material:"Katun / Rayon / Brokat",custom:"Model, pita, layer, warna",desc:"Dress anak untuk harian, pesta, dan acara keluarga.",notes:["Bisa mengikuti desain dewasa.","Ukuran custom tersedia.","Detail dapat disesuaikan."]},
+{id:"CH-03",cat:"Anak & Bayi",sub:"Anak",name:"Koko / Gamis Anak",gender:"Anak",use:"Acara",img:IMG.clothes,size:"1–12 tahun",material:"Katun / Toyobo / Wolfis",custom:"Model dan warna",desc:"Busana muslim anak untuk harian dan acara.",notes:["Bisa dibuat matching dengan orang tua.","Pilihan ukuran berdasarkan measurement.","Cocok untuk seragam keluarga."]},
+
+{id:"AC-01",cat:"Aksesori & Tas",sub:"Tas",name:"Tote Bag / Goodie Bag",gender:"Unisex",use:"Harian",img:IMG.bag,size:"Custom",material:"Canvas / Blacu",custom:"Ukuran, saku, sablon, bordir",desc:"Tas custom untuk event, merchandise, retail, dan kebutuhan usaha.",notes:["Bisa dibuat sesuai ukuran.","Logo dapat diaplikasikan.","Cocok untuk produksi partai."]},
+{id:"AC-02",cat:"Aksesori & Tas",sub:"Tas",name:"Pouch / Sling Bag",gender:"Unisex",use:"Harian",img:IMG.bag,size:"Custom",material:"Canvas / Parasut",custom:"Ukuran, strap, saku, logo",desc:"Pouch, sling bag, waist bag, dan tas kain custom.",notes:["Desain dapat mengikuti referensi.","Detail saku dapat dirancang.","Bisa dibuat untuk merchandise."]},
+{id:"AC-03",cat:"Aksesori & Tas",sub:"Aksesori",name:"Topi / Bucket Hat",gender:"Unisex",use:"Harian",img:IMG.fashion,size:"All Size / custom",material:"Drill / Canvas",custom:"Bordir, patch, warna",desc:"Topi custom untuk komunitas, perusahaan, dan fashion.",notes:["Bordir logo tersedia.","Bisa kombinasi warna.","Ukuran dapat disesuaikan."]},
+
+{id:"HM-01",cat:"Homewear & Tekstil",sub:"Homewear",name:"Piyama Set",gender:"Unisex",use:"Rumah",img:IMG.home,size:"S–5XL",material:"Katun / Rayon",custom:"Model, motif, ukuran",desc:"Set piyama dan pakaian tidur yang nyaman.",notes:["Lengan pendek/panjang.","Motif dapat dipilih dari bahan yang tersedia.","Cocok untuk hadiah atau produksi brand."]},
+{id:"HM-02",cat:"Homewear & Tekstil",sub:"Homewear",name:"Daster / Loungewear",gender:"Wanita",use:"Rumah",img:IMG.home,size:"All Size / Big Size",material:"Rayon / Katun",custom:"Panjang, bukaan, saku",desc:"Pakaian santai rumah yang longgar dan nyaman.",notes:["Model kancing atau slip-on.","Ukuran besar tersedia.","Bisa custom motif."]},
+{id:"HM-03",cat:"Homewear & Tekstil",sub:"Bed Linen",name:"Sprei / Bed Cover",gender:"Unisex",use:"Rumah",img:IMG.home,size:"Single–King / custom",material:"CVC / Katun / Fleece",custom:"Ukuran kasur, motif, set",desc:"Sprei, bed cover, sarung bantal, sarung guling, dan selimut.",notes:["Ukuran dapat mengikuti kasur.","Bisa dibuat satu set.","Motif mengikuti bahan yang tersedia."]},
+{id:"HM-04",cat:"Homewear & Tekstil",sub:"Dekorasi",name:"Tirai / Taplak / Sarung Sofa",gender:"Unisex",use:"Rumah",img:IMG.home,size:"Custom",material:"Katun / Canvas",custom:"Ukuran dan model",desc:"Produk tekstil rumah tangga berdasarkan ukuran furnitur.",notes:["Pengukuran dapat dibahas sebelum produksi.","Cocok untuk rumah, kafe, dan usaha.","Model sederhana sampai custom."]},
+{id:"HM-05",cat:"Homewear & Tekstil",sub:"Dapur",name:"Apron / Kitchen Textile",gender:"Unisex",use:"Rumah",img:IMG.fabric,size:"All Size / custom",material:"Canvas / Katun",custom:"Saku, logo, tali, warna",desc:"Apron, lap dapur, sarung tangan oven kain, dan kebutuhan resto/kafe.",notes:["Bisa dibuat sebagai paket seragam.","Logo dapat dibordir atau disablon.","Ukuran custom."]},
+
+{id:"JS-01",cat:"Jasa Produksi",sub:"Jahit Custom",name:"Jahit dari Foto / Referensi",gender:"Unisex",use:"Harian",img:IMG.fashion,size:"Custom",material:"Sesuai desain",custom:"Model, ukuran, bahan, detail",desc:"Pelanggan cukup membawa foto atau contoh pakaian untuk dibahas menjadi produk baru.",notes:["Konsultasi model dilakukan sebelum produksi.","Bahan dapat dipilih bersama.","Fitting dapat diperlukan untuk model tertentu."]},
+{id:"JS-02",cat:"Jasa Produksi",sub:"Pola & Sample",name:"Pembuatan Pola & Sample",gender:"Unisex",use:"Formal",img:IMG.fabric,size:"Custom",material:"Sesuai produk",custom:"Pola, grading, sample",desc:"Pembuatan pola, prototype, sample, dan penyesuaian sebelum produksi.",notes:["Cocok untuk brand baru.","Sample dapat menjadi acuan produksi.","Detail pola dibahas sesuai kebutuhan."]},
+{id:"JS-03",cat:"Jasa Produksi",sub:"Permak",name:"Permak & Alteration",gender:"Unisex",use:"Harian",img:IMG.clothes,size:"Custom",material:"Mengikuti pakaian",custom:"Panjang, lebar, pinggang, lengan",desc:"Mengecilkan, membesarkan, memendekkan, memanjangkan, dan mengubah detail tertentu.",notes:["Kelayakan perubahan tergantung konstruksi pakaian.","Bawa pakaian saat konsultasi.","Bisa termasuk penggantian resleting/kancing."]},
+{id:"JS-04",cat:"Jasa Produksi",sub:"Finishing",name:"Bordir / Sablon / Label",gender:"Unisex",use:"Seragam",img:IMG.fabric,size:"Custom",material:"Mengikuti produk",custom:"Logo, nama, patch, label, hangtag",desc:"Finishing dan branding untuk pakaian maupun produk tekstil.",notes:["Bordir komputer.","Sablon/DTF/sublimasi sesuai produk.","Label dan hangtag dapat disiapkan."]},
+{id:"JS-05",cat:"Jasa Produksi",sub:"Konveksi",name:"Produksi Partai / Maklon",gender:"Unisex",use:"Seragam",img:IMG.clothes,size:"Custom",material:"Sesuai produk",custom:"Produksi sesuai spesifikasi",desc:"Produksi satuan, partai kecil, grosir, hingga kebutuhan brand/instansi.",notes:["Spesifikasi ditentukan bersama.","Dapat dimulai dari sample.","Jumlah dan timeline dibahas berdasarkan pesanan."]}
+];
+
+const P=(id,cat,sub,name,gender,use,size,material,custom,desc,n1,n2)=>products.push({id,cat,sub,name,gender,use,img:"",size,material,custom,desc,notes:[n1,n2]});
+P("SR-06","Seragam & Corporate","Sekolah","Seragam TK & PAUD","Anak","Seragam","Usia 3–7","Katun / Drill","Model, warna, atribut, bordir nama","Seragam TK, PAUD, dan playgroup dengan bahan lembut dan model ceria.","Bisa dibuat satu angkatan.","Bahan dipilih agar nyaman untuk anak.");
+P("SR-07","Seragam & Corporate","Sekolah","Pramuka & Paskibra","Unisex","Seragam","S–5XL","Drill / Katun","Atribut, badge, warna","Seragam pramuka, paskibra, dan organisasi sekolah lengkap dengan atribut.","Atribut dan badge dapat dikerjakan.","Bisa untuk satu regu atau satu sekolah.");
+P("SR-08","Seragam & Corporate","Sekolah","Olahraga & Batik Sekolah","Unisex","Seragam","Anak–Dewasa","Katun / Dry Fit / Batik","Motif, logo sekolah, warna","Seragam olahraga dan batik identitas sekolah atau instansi.","Motif batik dapat disesuaikan.","Logo bisa disablon atau dibordir.");
+P("SR-09","Seragam & Corporate","Kantor","Batik Seragam Instansi","Unisex","Seragam","S–5XL","Katun Batik / Rayon","Motif, kombinasi, logo","Kemeja dan blouse batik untuk instansi, kantor, dan komunitas.","Motif dan warna dapat dikonsultasikan.","Bisa pria dan wanita satu paket.");
+P("SR-10","Seragam & Corporate","Lapangan","Security / Teknisi / PDL","Unisex","Seragam","S–5XL","Drill / Ripstop","Atribut, patch, saku, bordir","Seragam security, satpam, teknisi, dan PDL dengan atribut lengkap.","Patch dan emblem dapat dipasang.","Detail saku sesuai kebutuhan lapangan.");
+P("SR-11","Seragam & Corporate","Organisasi","Jaket Almamater & Organisasi","Unisex","Seragam","S–5XL","Fleece / Drill / Taslan","Bordir, patch, warna, panel","Jaket almamater, seragam kepanitiaan, organisasi, dan relawan.","Bordir nama dan logo tersedia.","Cocok untuk satu angkatan atau tim.");
+P("SP-05","Sport & Outdoor","Jersey","Jersey Cycling & Running","Unisex","Olahraga","XS–5XL","Dry Fit / Lycra","Sublimasi, zipper, nama, sponsor","Jersey cycling dan running full print untuk tim maupun komunitas.","Potongan ergonomis untuk gerak.","Bisa satuan atau satu tim.");
+P("SP-06","Sport & Outdoor","Training","Legging, Sports Bra & Baju Gym","Wanita","Olahraga","XS–5XL","Spandex / Lycra","Warna, panjang, logo","Legging olahraga, sports bra, running shorts, dan baju gym.","Bahan elastis dan nyaman bergerak.","Bisa dibuat satu set.");
+P("SP-07","Sport & Outdoor","Training","Baju Renang","Unisex","Olahraga","Anak–Dewasa","Lycra / Spandex","Model, warna, logo","Baju renang dan swimwear, termasuk model muslimah.","Model dapat mengikuti referensi.","Ukuran anak sampai dewasa.");
+P("SP-08","Sport & Outdoor","Outdoor","Raincoat & Rompi Tactical","Unisex","Outdoor","S–5XL","Parasut / Ripstop","Saku, reflektif, hood, warna","Jas hujan, windbreaker, rompi tactical, dan pakaian camping.","Bisa ditambah reflective tape.","Layout saku dapat dirancang.");
+P("AT-07","Fashion","Atasan","Cardigan, Tank Top & Singlet","Unisex","Harian","S–5XL","Rajut / Cotton Combed","Model, panjang, warna","Cardigan, tank top, singlet, dan atasan layering lainnya.","Cocok untuk koleksi brand.","Bisa satuan maupun partai.");
+P("BW-05","Fashion","Celana","Celana Jogger, Kulot & Pendek","Unisex","Harian","S–5XL","Fleece / Katun / Rayon","Panjang, karet, saku","Celana jogger, sweatpants, celana pendek, kulot, palazzo, dan skort.","Panjang dan pinggang dapat disesuaikan.","Bisa dibuat setelan dengan atasan.");
+P("MU-05","Busana Muslim","Atasan Muslim","Sarimbit & Baju Kurung","Unisex","Acara","S–5XL","Songket / Brokat / Katun","Motif, kombinasi, seragam keluarga","Sarimbit keluarga, baju kurung, setelan muslim, dan busana Ramadan/Idulfitri.","Bisa seragam satu keluarga.","Ukuran tiap anggota dapat berbeda.");
+P("MU-06","Busana Muslim","Pelengkap","Peci & Sorban","Pria","Harian","All Size","Katun / Beludru","Bordir, warna","Peci dan sorban untuk harian, pengajian, dan komunitas.","Bordir nama atau logo tersedia.","Bisa satuan atau partai.");
+P("CH-04","Anak & Bayi","Anak","Piyama & Kostum Anak","Anak","Harian","1–12 tahun","Katun / Rayon","Motif, karakter, tema","Piyama anak, kostum karakter, dan seragam anak untuk acara.","Tema mengikuti konsep acara.","Ukuran berdasarkan usia atau measurement.");
+P("HM-06","Homewear & Tekstil","Dapur","Handuk & Keset Custom","Unisex","Rumah","Custom","Terry Cotton / Kanvas","Ukuran, logo, warna","Handuk custom, keset kain, lap dapur, dan kitchen towel.","Bordir logo untuk hotel atau kafe.","Bisa produksi partai.");
+P("JS-06","Jasa Produksi","Konveksi","Private Label & Packaging","Unisex","Seragam","Custom","Sesuai produk","Label, hangtag, packaging","Private label, white label, label woven, hangtag, dan packaging custom.","Cocok untuk brand baru.","Detail dibahas sesuai kebutuhan.");
+const ORDER=["Seragam & Corporate","Fashion","Busana Muslim","Sport & Outdoor","Occasion & Special","Anak & Bayi","Aksesori & Tas","Homewear & Tekstil","Jasa Produksi"];
+const SO=[...new Set(products.map(p=>p.cat+"|"+p.sub))];
+products.sort((a,b)=>ORDER.indexOf(a.cat)-ORDER.indexOf(b.cat)||SO.indexOf(a.cat+"|"+a.sub)-SO.indexOf(b.cat+"|"+b.sub));
+const catColor={"Seragam & Corporate":"#3f5f8a","Fashion":"#c2455c","Busana Muslim":"#6f5bb2","Sport & Outdoor":"#1f7f6d","Occasion & Special":"#9a4a6b","Anak & Bayi":"#c46a30","Aksesori & Tas":"#7a6a2e","Homewear & Tekstil":"#3f7f8a","Jasa Produksi":"#4d5b6b"};
+const catIcon={"Seragam & Corporate":"👔","Fashion":"👗","Busana Muslim":"🧕","Sport & Outdoor":"🏃","Occasion & Special":"👰","Anak & Bayi":"🧒","Aksesori & Tas":"👜","Homewear & Tekstil":"🛏️","Jasa Produksi":"🧵"};
+const ph=p=>`<div class="ph" style="--c:${catColor[p.cat]||"#4d5b6b"}"><b>${catIcon[p.cat]||"🧵"}</b><span>FOTO MENYUSUL</span></div>`;
+let lastFocus=null;
+const categories = [...new Set(products.map(p=>p.cat))];
+const subs = [...new Set(products.map(p=>p.sub))];
+const catEl=document.getElementById("cat"), subEl=document.getElementById("sub");
+categories.forEach(x=>catEl.add(new Option(x,x)));
+
+function refreshSub(){
+  const cat=catEl.value;
+  subEl.innerHTML='<option value="all">Semua subkategori</option>';
+  [...new Set(products.filter(p=>cat==="all"||p.cat===cat).map(p=>p.sub))].forEach(x=>subEl.add(new Option(x,x)));
+}
+function render(){
+  const cat=catEl.value, sub=subEl.value, gender=document.getElementById("gender").value, use=document.getElementById("use").value;
+  const q=document.getElementById("search").value.toLowerCase().trim();
+  const data=products.filter(p=>
+    (cat==="all"||p.cat===cat)&&(sub==="all"||p.sub===sub)&&(gender==="all"||p.gender===gender||(p.gender==="Unisex"&&(gender==="Pria"||gender==="Wanita")))&&(use==="all"||p.use===use)&&
+    (!q||[p.id,p.cat,p.sub,p.name,p.gender,p.use,p.material,p.custom,p.desc].join(" ").toLowerCase().includes(q))
+  );
+  document.getElementById("count").textContent=`Menampilkan ${data.length} dari ${products.length} produk / layanan`;
+  const grouped={};
+  data.forEach(p=>(grouped[p.cat]??=[]).push(p));
+  let out="";
+  Object.entries(grouped).forEach(([cat,items])=>{
+    out+=`<section class="section"><div class="section-title"><div><h2>${cat}</h2><p>${items.length} pilihan</p></div></div><div class="grid">`;
+    items.forEach(p=>out+=card(p));
+    out+="</div></section>";
+  });
+  document.getElementById("catalog").innerHTML=out;
+  document.getElementById("empty").style.display=data.length?"none":"block";
+  document.getElementById("reset").hidden=!(cat!=="all"||sub!=="all"||gender!=="all"||use!=="all"||q);
+  document.getElementById("mcount").textContent=`${data.length} dari ${products.length} produk / layanan`;
+  document.getElementById("fbadge").textContent=[cat,sub,gender,use].filter(x=>x!=="all").length||"";
+  document.querySelectorAll(".cchip").forEach(b=>b.classList.toggle("on",b.dataset.c===cat));
+}
+function card(p){
+  return `<article class="card" tabindex="0" onclick="openModal('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('${p.id}')}">
+    <div class="card-media">${ph(p)}<span class="ribbon">${p.sub}</span><span class="code">${p.id}</span></div>
+    <div class="card-body"><h3>${p.name}</h3><p>${p.desc}</p><div class="tags"><span class="tag">${p.use}</span><span class="tag">${p.size}</span><span class="tag">${p.material.split("/")[0].trim()}</span></div><div class="more">Lihat detail ↗</div></div>
+  </article>`;
+}
+function openModal(id){
+  const p=products.find(x=>x.id===id); if(!p)return;
+  document.getElementById("modalPh").innerHTML=ph(p);
+  document.getElementById("modalCrumb").textContent=`${p.cat} / ${p.sub} • ${p.id}`;
+  document.getElementById("modalTitle").textContent=p.name;
+  document.getElementById("modalDesc").textContent=p.desc;
+  document.getElementById("mGender").textContent=p.gender;
+  document.getElementById("mUse").textContent=p.use;
+  document.getElementById("mSize").textContent=p.size;
+  document.getElementById("mMaterial").textContent=p.material;
+  document.getElementById("mCustom").textContent=p.custom;
+  document.getElementById("mNotes").innerHTML=p.notes.map(n=>`<li>${n}</li>`).join("");
+  const msg=encodeURIComponent(`Halo Veronica Modiste, saya tertarik dengan ${p.name} (${p.id}). Saya ingin konsultasi mengenai model, bahan, ukuran, dan jumlah pesanan.`);
+  document.getElementById("waLink").href=`https://wa.me/6285190008567?text=${msg}`;
+  lastFocus=document.activeElement;document.getElementById("overlay").classList.add("open");document.body.style.overflow="hidden";document.querySelector(".modal-bar .close").focus();
+}
+function closeModal(){document.getElementById("overlay").classList.remove("open");document.body.style.overflow="";if(lastFocus)lastFocus.focus()}
+function resetFilters(){catEl.value="all";refreshSub();subEl.value="all";document.getElementById("gender").value="all";document.getElementById("use").value="all";document.getElementById("search").value="";render()}
+function toggleFilters(){const o=document.getElementById("filters").classList.toggle("open");document.body.classList.toggle("fopen",o);document.body.style.overflow=o?"hidden":"";document.getElementById("ftoggle").setAttribute("aria-expanded",o)}
+window.addEventListener("resize",()=>{if(innerWidth>680&&document.getElementById("filters").classList.contains("open"))toggleFilters()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();if(document.getElementById("filters").classList.contains("open"))toggleFilters()}});
+const chipsEl=document.getElementById("chips");["all",...categories].forEach(c=>{const b=document.createElement("button");b.className="cchip";b.dataset.c=c;b.textContent=c==="all"?"Semua":c;b.onclick=()=>{catEl.value=c;refreshSub();render();document.getElementById("catalog").scrollIntoView({block:"start"})};chipsEl.appendChild(b)});
+refreshSub(); render();
+</script>
+</body>
+</html>
